@@ -26,7 +26,7 @@ class LoadContentData implements FixtureInterface
 
         $contentRoot = new Generic();
         $contentRoot->setNodename('contents');
-        $contentRoot->setParent($root);
+        $contentRoot->setParentDocument($root);
         $manager->persist($contentRoot);
 
         $content = new StaticContent();

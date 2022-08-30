@@ -1,4 +1,5 @@
 tests/Fixtures/App/var/cache
 tests/Fixtures/App/var/logs
 composer.lock
-vendor
+vendor/
+.idea/

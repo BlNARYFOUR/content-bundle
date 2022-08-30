@@ -13,7 +13,6 @@ namespace Symfony\Cmf\Bundle\ContentBundle\Controller;
 
 use FOS\RestBundle\View\View;
 use FOS\RestBundle\View\ViewHandlerInterface;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
@@ -24,7 +23,7 @@ use Twig\Environment;
 class ContentController
 {
     /**
-     * @var EngineInterface|null
+     * @var Environment|null
      */
     protected $templating;
 
@@ -54,7 +53,7 @@ class ContentController
      * @param ViewHandlerInterface $viewHandler     Optional view handler
      *                                              instance
      */
-    public function __construct(EngineInterface $templating = null, $defaultTemplate = null, ViewHandlerInterface $viewHandler = null, Environment $twig = null)
+    public function __construct(Environment $templating = null, $defaultTemplate = null, ViewHandlerInterface $viewHandler = null, Environment $twig = null)
     {
         if (is_null($templating) && is_null($twig)) {
             throw new \InvalidArgumentException('One of Templating or Twig must be specified');

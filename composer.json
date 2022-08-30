@@ -13,20 +13,28 @@
             "homepage": "https://github.com/symfony-cmf/ContentBundle/contributors"
         }
     ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/BlNARYFOUR/menu-bundle.git"
+        }
+    ],
     "require": {
-        "php": "^7.1",
+        "php": "^7.1 || ^8.0",
         "symfony/framework-bundle": "^2.8 || ^3.3 || ^4.0",
         "symfony/templating": "^2.8 || ^3.3 || ^4.0",
         "symfony/twig-bundle": "^2.8 || ^3.3 || ^4.0",
         "symfony/validator": "^2.8 || ^3.3 || ^4.0",
-        "symfony-cmf/core-bundle": "^2.1",
-        "symfony-cmf/menu-bundle": "^2.1",
+        "symfony-cmf/core-bundle": "^3.0",
+        "symfony-cmf/menu-bundle": "^3.0",
         "symfony-cmf/routing-bundle": "^2.1"
     },
     "require-dev": {
+        "phpcompatibility/php-compatibility": "^9.3",
         "doctrine/phpcr-odm": "^1.4|^2.0",
-        "symfony-cmf/testing": "^2.1.8",
-        "symfony/phpunit-bridge": "^3.3 || ^4.0"
+        "symfony/phpunit-bridge": "^3.3 || ^4.0",
+        "jackalope/jackalope-fs": "^0.0.3",
+        "jackalope/jackalope": "^1.4.1"
     },
     "suggest": {
         "friendsofsymfony/rest-bundle": "Improved handling for different output formats",
@@ -46,7 +54,9 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.1-dev"
+            "dev-master": "3.0-dev"
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
