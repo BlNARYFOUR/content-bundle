@@ -305,7 +305,7 @@ class StaticContent extends StaticContentBase implements
     /**
      * {@inheritdoc}
      */
-    public function getMenuNodes()
+    public function getMenuNodes(): array
     {
         return $this->menuNodes;
     }
