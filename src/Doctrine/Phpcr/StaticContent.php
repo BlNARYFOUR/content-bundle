@@ -79,7 +79,7 @@ class StaticContent extends ModelStaticContent implements HierarchyInterface
         return $this->getParentDocument();
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -94,7 +94,7 @@ class StaticContent extends ModelStaticContent implements HierarchyInterface
      *
      * @return NodeInterface
      */
-    public function getNode()
+    public function getNode(): NodeInterface
     {
         return $this->node;
     }

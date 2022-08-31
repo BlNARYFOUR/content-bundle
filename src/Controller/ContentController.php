@@ -13,9 +13,13 @@ namespace Symfony\Cmf\Bundle\ContentBundle\Controller;
 
 use FOS\RestBundle\View\View;
 use FOS\RestBundle\View\ViewHandlerInterface;
+use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 /**
  * This controller renders the content object with a template defined on the route.
@@ -45,18 +49,18 @@ class ContentController
     /**
      * Instantiate the content controller.
      *
-     * @param EngineInterface      $templating      The templating instance to
-     *                                              render the template
-     * @param string               $defaultTemplate Default template to use in
-     *                                              case none is specified by
-     *                                              the request
-     * @param ViewHandlerInterface $viewHandler     Optional view handler
-     *                                              instance
+     * @param Environment|null          $templating      The templating instance to
+     *                                                   render the template
+     * @param string|null               $defaultTemplate Default template to use in
+     *                                                   case none is specified by
+     *                                                   the request
+     * @param ViewHandlerInterface|null $viewHandler     Optional view handler
+     *                                                   instance
      */
-    public function __construct(Environment $templating = null, $defaultTemplate = null, ViewHandlerInterface $viewHandler = null, Environment $twig = null)
+    public function __construct(Environment $templating = null, string $defaultTemplate = null, ViewHandlerInterface $viewHandler = null, Environment $twig = null)
     {
         if (is_null($templating) && is_null($twig)) {
-            throw new \InvalidArgumentException('One of Templating or Twig must be specified');
+            throw new InvalidArgumentException('One of Templating or Twig must be specified');
         }
         $this->templating = $templating;
         $this->defaultTemplate = $defaultTemplate;
@@ -72,15 +76,19 @@ class ContentController
      * checked for being published.
      * We don't need an explicit check in this method.
      *
-     * @param Request $request
-     * @param object  $contentDocument
-     * @param string  $template        Symfony path of the template to render
-     *                                 the content document. If omitted, the
-     *                                 default template is used
+     * @param Request     $request
+     * @param object      $contentDocument
+     * @param string|null $template        Symfony path of the template to render
+     *                                     the content document. If omitted, the
+     *                                     default template is used
      *
      * @return Response
+     *
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function indexAction(Request $request, $contentDocument, $template = null)
+    public function indexAction(Request $request, $contentDocument, string $template = null): Response
     {
         $contentTemplate = $template ?: $this->defaultTemplate;
 
@@ -95,7 +103,12 @@ class ContentController
         return $this->renderResponse($contentTemplate, $params);
     }
 
-    protected function renderResponse($contentTemplate, $params)
+    /**
+     * @throws RuntimeError
+     * @throws SyntaxError
+     * @throws LoaderError
+     */
+    protected function renderResponse($contentTemplate, $params): Response
     {
         if ($this->viewHandler) {
             if (1 === count($params)) {
@@ -115,7 +128,7 @@ class ContentController
             $response = new Response();
             $response->setContent($this->twig->render($contentTemplate, $params));
         } else {
-            $response = $this->templating->renderResponse($contentTemplate, $params);
+            $response = $this->templating->render($contentTemplate, $params);
         }
 
         return $response;
@@ -128,7 +141,7 @@ class ContentController
      *
      * @return View
      */
-    protected function getView($params)
+    protected function getView(array $params): View
     {
         return new View($params);
     }
@@ -144,7 +157,7 @@ class ContentController
      *
      * @return array
      */
-    protected function getParams(Request $request, $contentDocument)
+    protected function getParams(Request $request, $contentDocument): array
     {
         return [
             'cmfMainContent' => $contentDocument,

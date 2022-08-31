@@ -11,6 +11,7 @@
 
 namespace Symfony\Cmf\Bundle\ContentBundle\Model;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Knp\Menu\NodeInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
@@ -50,12 +51,12 @@ class StaticContent extends StaticContentBase implements
     protected $publishable = true;
 
     /**
-     * @var \DateTime|null publication start time
+     * @var DateTime|null publication start time
      */
     protected $publishStartDate;
 
     /**
-     * @var \DateTime|null publication end time
+     * @var DateTime|null publication end time
      */
     protected $publishEndDate;
 
@@ -91,7 +92,7 @@ class StaticContent extends StaticContentBase implements
      * This will usually be a ContainerBlock but can be any block that will be
      * rendered in the additionalInfoBlock area.
      *
-     * @var \Sonata\BlockBundle\Model\BlockInterface
+     * @var BlockInterface
      */
     protected $additionalInfoBlock;
 
@@ -122,7 +123,7 @@ class StaticContent extends StaticContentBase implements
      *
      * @return string[]
      */
-    public function getTags()
+    public function getTags(): array
     {
         return $this->tags;
     }
@@ -132,7 +133,7 @@ class StaticContent extends StaticContentBase implements
      *
      * @param string[] $tags
      */
-    public function setTags($tags)
+    public function setTags(array $tags)
     {
         $this->tags = $tags;
     }
@@ -140,7 +141,7 @@ class StaticContent extends StaticContentBase implements
     /**
      * @return BlockInterface
      */
-    public function getAdditionalInfoBlock()
+    public function getAdditionalInfoBlock(): BlockInterface
     {
         return $this->additionalInfoBlock;
     }
@@ -152,7 +153,7 @@ class StaticContent extends StaticContentBase implements
      * @param BlockInterface $block must be persistable through cascade by the
      *                              persistence layer
      */
-    public function setAdditionalInfoBlock($block)
+    public function setAdditionalInfoBlock(BlockInterface $block)
     {
         $this->additionalInfoBlock = $block;
     }
@@ -160,7 +161,7 @@ class StaticContent extends StaticContentBase implements
     /**
      * {@inheritdoc}
      */
-    public function setPublishable($publishable)
+    public function setPublishable($publishable): bool
     {
         return $this->publishable = (bool) $publishable;
     }
@@ -168,7 +169,7 @@ class StaticContent extends StaticContentBase implements
     /**
      * {@inheritdoc}
      */
-    public function isPublishable()
+    public function isPublishable(): bool
     {
         return $this->publishable;
     }
@@ -176,7 +177,7 @@ class StaticContent extends StaticContentBase implements
     /**
      * {@inheritdoc}
      */
-    public function getPublishStartDate()
+    public function getPublishStartDate(): ?DateTime
     {
         return $this->publishStartDate;
     }
@@ -184,15 +185,15 @@ class StaticContent extends StaticContentBase implements
     /**
      * {@inheritdoc}
      */
-    public function setPublishStartDate(\DateTime $publishStartDate = null)
+    public function setPublishStartDate(DateTime $publishDate = null)
     {
-        $this->publishStartDate = $publishStartDate;
+        $this->publishStartDate = $publishDate;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getPublishEndDate()
+    public function getPublishEndDate(): ?DateTime
     {
         return $this->publishEndDate;
     }
@@ -200,9 +201,9 @@ class StaticContent extends StaticContentBase implements
     /**
      * {@inheritdoc}
      */
-    public function setPublishEndDate(\DateTime $publishEndDate = null)
+    public function setPublishEndDate(DateTime $publishDate = null)
     {
-        $this->publishEndDate = $publishEndDate;
+        $this->publishEndDate = $publishDate;
     }
 
     /**
@@ -210,7 +211,7 @@ class StaticContent extends StaticContentBase implements
      *
      * @return array
      */
-    public function getExtras()
+    public function getExtras(): array
     {
         return $this->extras;
     }
@@ -223,9 +224,9 @@ class StaticContent extends StaticContentBase implements
      *
      * @return string|null the value at $name if set, null otherwise
      */
-    public function getExtra($name, $default = null)
+    public function getExtra(string $name, string $default = null): ?string
     {
-        return isset($this->extras[$name]) ? $this->extras[$name] : $default;
+        return $this->extras[$name] ?? $default;
     }
 
     /**
@@ -235,7 +236,7 @@ class StaticContent extends StaticContentBase implements
      *
      * @return StaticContent - this instance
      */
-    public function setExtras(array $extras)
+    public function setExtras(array $extras): StaticContent
     {
         $this->extras = $extras;
 
@@ -245,12 +246,12 @@ class StaticContent extends StaticContentBase implements
     /**
      * Set a single application information value.
      *
-     * @param string $name
-     * @param string $value the new value, null removes the entry
+     * @param string      $name
+     * @param string|null $value the new value, null removes the entry
      *
-     * @return StaticContent - this instance
+     * @return StaticContent     - this instance
      */
-    public function setExtra($name, $value)
+    public function setExtra(string $name, ?string $value): StaticContent
     {
         if (is_null($value)) {
             unset($this->extras[$name]);

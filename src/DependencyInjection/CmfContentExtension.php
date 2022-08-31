@@ -11,6 +11,7 @@
 
 namespace Symfony\Cmf\Bundle\ContentBundle\DependencyInjection;
 
+use Exception;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
@@ -18,6 +19,9 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class CmfContentExtension extends Extension
 {
+    /**
+     * @throws Exception
+     */
     public function load(array $configs, ContainerBuilder $container)
     {
         $config = $this->processConfiguration(new Configuration(), $configs);
@@ -34,6 +38,9 @@ class CmfContentExtension extends Extension
         }
     }
 
+    /**
+     * @throws Exception
+     */
     public function loadPhpcr(array $config, XmlFileLoader $loader, ContainerBuilder $container)
     {
         $container->setParameter($this->getAlias().'.backend_type_phpcr', true);
@@ -55,12 +62,12 @@ class CmfContentExtension extends Extension
      *
      * @return string The XSD base path
      */
-    public function getXsdValidationBasePath()
+    public function getXsdValidationBasePath(): string
     {
         return __DIR__.'/../Resources/config/schema';
     }
 
-    public function getNamespace()
+    public function getNamespace(): string
     {
         return 'http://cmf.symfony.com/schema/dic/content';
     }

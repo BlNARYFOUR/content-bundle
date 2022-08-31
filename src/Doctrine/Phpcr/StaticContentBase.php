@@ -76,7 +76,7 @@ class StaticContentBase extends ModelStaticContentBase implements HierarchyInter
         return $this->getParentDocument();
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -91,7 +91,7 @@ class StaticContentBase extends ModelStaticContentBase implements HierarchyInter
      *
      * @return NodeInterface
      */
-    public function getNode()
+    public function getNode(): NodeInterface
     {
         return $this->node;
     }

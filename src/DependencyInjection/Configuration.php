@@ -16,11 +16,11 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder();
+        $treeBuilder = new TreeBuilder('cmf_content');
 
-        $treeBuilder->root('cmf_content')
+        $treeBuilder->getRootNode()
             ->children()
                 ->scalarNode('default_template')->end()
                 ->arrayNode('persistence')
